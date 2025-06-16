@@ -1,53 +1,29 @@
-
 import { handleAuth } from "./routes/auth";
+import { handleLogin } from "./routes/login";
 import { handlePortfolio } from "./routes/portfolio";
-import { handleTrade } from "./routes/trade";
 import { handleMining } from "./routes/mining";
-import { handleUpdateMarket } from "./routes/updateMarket";
-
-import { corsHeaders } from "./utils/response";
+import { handleTrade } from "./routes/trade";
+import { handleMarket, handleBuy, handleSell } from "./routes/market";
+import { Env } from "./utils/types";
 
 export default {
-  async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const url = new URL(req.url);
-    const { pathname, searchParams } = url;
-    const method = req.method;
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    const pathname = url.pathname;
+    const method = request.method;
 
-    // Tangani preflight CORS
-    if (method === "OPTIONS") {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          ...corsHeaders,
-          "Access-Control-Max-Age": "86400",
-        },
-      });
-    }
+    if (pathname === "/auth") return handleAuth(request, env);
+    if (pathname === "/login") return handleLogin(request, env);
+    if (pathname === "/portfolio") return handlePortfolio(request, env);
+    if (pathname === "/mining") return handleMining(request, env);
+    if (pathname === "/trade") return handleTrade(request, env);
 
-    // Routing berdasarkan endpoint
-    if (pathname === "/login" && method === "POST") {
-      return handleAuth(req, env);
-    }
+    if (pathname === "/market") return handleMarket(request, env);
+    if (pathname === "/market/buy" && method === "POST")
+      return handleBuy(request, env);
+    if (pathname === "/market/sell" && method === "POST")
+      return handleSell(request, env);
 
-    if (pathname === "/portfolio" && method === "GET") {
-      return handlePortfolio(req, env);
-    }
-
-    if (pathname === "/trade" && method === "POST") {
-      return handleTrade(req, env);
-    }
-
-    if (pathname === "/mining" && method === "POST") {
-      return handleMining(req, env);
-    }
-
-    if (pathname === "/update-market" && method === "GET") {
-      return handleUpdateMarket(req, env);
-    }
-
-    return new Response(JSON.stringify({ error: "Not Found" }), {
-      status: 404,
-      headers: corsHeaders,
-    });
+    return new Response("Not Found", { status: 404 });
   },
 };
