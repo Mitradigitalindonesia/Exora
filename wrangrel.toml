@@ -1,7 +1,4 @@
-name = "exora"
-main = "dist/worker/worker.js"
+name = "exora-test"
+type = "module"
+main = "worker.ts"
 compatibility_date = "2025-06-16"
-
-[[kv_namespaces]]
-binding = "Exora_KV"
-id = "0668fa3be3704b0889bebc952f3099d6"
