@@ -1,12 +1,8 @@
-name = "exora-app"
+name = "exora"
 type = "javascript"
-
-account_id = "YOUR_ACCOUNT_ID"
-workers_dev = true
-compatibility_date = "2025-06-17"
-
 main = "src/worker/worker.ts"
+compatibility_date = "2025-06-16"
 
-kv_namespaces = [
-  { binding = "ASSET_KV", id = "your_kv_namespace_id", preview_id = "your_kv_namespace_id" }
-]
+[[kv_namespaces]]
+binding = "Exora_KV"
+id = "0668fa3be3704b0889bebc952f3099d6"
