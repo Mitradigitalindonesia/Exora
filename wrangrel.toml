@@ -1,5 +1,5 @@
 name = "exora"
-type = "javascript"
+type = "module"
 main = "src/worker/worker.ts"
 compatibility_date = "2025-06-16"
 
