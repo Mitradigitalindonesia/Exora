@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Crypto App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 360px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background: #0d9488;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Login Token</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="text" id="token" placeholder="Token" />
+  <button onclick="login()">Login</button>
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+  async function login() {
+    const username = document.getElementById('username').value.trim();
+    const token = document.getElementById('token').value.trim();
+    const messageEl = document.getElementById('message');
+
+    if (!username || !token) {
+      messageEl.textContent = 'Username dan token wajib diisi.';
+      messageEl.style.color = 'red';
+      return;
+    }
+
+    try {
+      const res = await fetch('https://crypto-backend.interbraineducations.workers.dev/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, token })
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        localStorage.setItem('username', result.username);
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('isAdmin', result.isAdmin);
+        localStorage.setItem('expiredAt', result.expiredAt || '');
+
+        messageEl.textContent = 'Login berhasil! Mengarahkan...';
+        messageEl.style.color = 'green';
+        setTimeout(() => {
+          window.location.href = result.isAdmin ? 'admin.html' : 'portfolio.html';
+        }, 1000);
+      } else {
+        messageEl.textContent = result.message || 'Login gagal. Periksa token atau username.';
+        messageEl.style.color = 'red';
+      }
+    } catch (error) {
+      messageEl.textContent = 'Gagal menghubungi server. Coba lagi nanti.';
+      messageEl.style.color = 'red';
+      console.error(error);
+    }
+  }
+</script>
+
+</body>
+</html>
