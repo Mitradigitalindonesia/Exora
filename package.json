@@ -1,16 +1,12 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["DOM", "ES2020"],
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": true,
-    "esModuleInterop": true,
-    "baseUrl": ".",
-    "paths": {
-      "@routes/*": ["src/worker/routes/*"],
-      "@utils/*": ["src/worker/utils/*"]
-    }
+  "name": "exora-app",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/worker/worker.ts",
+    "build": "echo 'No frontend build yet'",
+    "deploy": "wrangler publish"
   },
-  "include": ["src"]
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
 }
