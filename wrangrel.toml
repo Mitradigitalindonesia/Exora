@@ -1,6 +1,5 @@
 name = "exora"
-type = "module"
-main = "src/worker/worker.ts"
+main = "dist/worker/worker.js"
 compatibility_date = "2025-06-16"
 
 [[kv_namespaces]]
