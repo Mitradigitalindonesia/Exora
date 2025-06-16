@@ -7,6 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "outDir": "dist",
     "paths": {
       "@routes/*": ["src/worker/routes/*"],
       "@utils/*": ["src/worker/utils/*"]
